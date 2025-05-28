@@ -1,0 +1,64 @@
+== Info: Host localhost:3001 was resolved.
+== Info: IPv6: ::1
+== Info: IPv4: 127.0.0.1
+== Info:   Trying [::1]:3001...
+== Info: Connected to localhost (::1) port 3001
+== Info: using HTTP/1.x
+=> Send header, 148 bytes (0x94)
+0000: POST /api/market/ai-chat HTTP/1.1
+0023: Host: localhost:3001
+0039: User-Agent: curl/8.12.1
+0052: Accept: */*
+005f: Content-Type: application/json
+007f: Content-Length: 2
+0092: 
+=> Send data, 2 bytes (0x2)
+0000: {\
+== Info: upload completely sent off: 2 bytes
+<= Recv header, 26 bytes (0x1a)
+0000: HTTP/1.1 400 Bad Request
+<= Recv header, 23 bytes (0x17)
+0000: X-Powered-By: Express
+<= Recv header, 32 bytes (0x20)
+0000: Access-Control-Allow-Origin: *
+<= Recv header, 45 bytes (0x2d)
+0000: Content-Security-Policy: default-src 'none'
+<= Recv header, 33 bytes (0x21)
+0000: X-Content-Type-Options: nosniff
+<= Recv header, 40 bytes (0x28)
+0000: Content-Type: text/html; charset=utf-8
+<= Recv header, 22 bytes (0x16)
+0000: Content-Length: 1283
+<= Recv header, 37 bytes (0x25)
+0000: Date: Sun, 25 May 2025 21:49:01 GMT
+<= Recv header, 24 bytes (0x18)
+0000: Connection: keep-alive
+<= Recv header, 23 bytes (0x17)
+0000: Keep-Alive: timeout=5
+<= Recv header, 2 bytes (0x2)
+0000: 
+<= Recv data, 1283 bytes (0x503)
+0000: <!DOCTYPE html>.<html lang="en">.<head>.<meta charset="utf-8">.<
+0040: title>Error</title>.</head>.<body>.<pre>SyntaxError: Expected pr
+0080: operty name or &#39;}&#39; in JSON at position 1 (line 1 column 
+00c0: 2)<br> &nbsp; &nbsp;at JSON.parse (&lt;anonymous&gt;)<br> &nbsp;
+0100:  &nbsp;at parse (C:\Users\todor\OneDrive\.............. ........
+0140: \ETH2\eth-wallet-lite\node_modules\body-parser\lib\types\json.js
+0180: :77:19)<br> &nbsp; &nbsp;at C:\Users\todor\OneDrive\............
+01c0: .. ........\ETH2\eth-wallet-lite\node_modules\body-parser\lib\re
+0200: ad.js:123:18<br> &nbsp; &nbsp;at AsyncResource.runInAsyncScope (
+0240: node:async_hooks:211:14)<br> &nbsp; &nbsp;at invokeCallback (C:\
+0280: Users\todor\OneDrive\.............. ........\ETH2\eth-wallet-lit
+02c0: e\node_modules\raw-body\index.js:238:16)<br> &nbsp; &nbsp;at don
+0300: e (C:\Users\todor\OneDrive\.............. ........\ETH2\eth-wall
+0340: et-lite\node_modules\raw-body\index.js:227:7)<br> &nbsp; &nbsp;a
+0380: t IncomingMessage.onEnd (C:\Users\todor\OneDrive\.............. 
+03c0: ........\ETH2\eth-wallet-lite\node_modules\raw-body\index.js:287
+0400: :7)<br> &nbsp; &nbsp;at IncomingMessage.emit (node:events:524:28
+0440: )<br> &nbsp; &nbsp;at endReadableNT (node:internal/streams/reada
+0480: ble:1698:12)<br> &nbsp; &nbsp;at process.processTicksAndRejectio
+04c0: ns (node:internal/process/task_queues:90:21)</pre>.</body>.</htm
+0500: l>.
+== Info: Connection #0 to host localhost left intact
+== Info: URL rejected: Port number was not a decimal number between 0 and 65535
+== Info: closing connection #-1

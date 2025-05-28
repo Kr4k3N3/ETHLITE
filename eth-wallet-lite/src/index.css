@@ -1,0 +1,120 @@
+@import './global.css';
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #232946;
+  /* background-color removed to prevent white area */
+
+  /* Add card background variables */
+  --card-bg: #f8fafc;
+  --card-bg-dark: #232946;
+  --card-text: #222;
+  --card-text-dark: #e0e7ef;
+  --modal-bg: #f3f4f6; /* distinct, not white, not same as card */
+  --modal-bg-dark: #232946;
+
+  --bg: #e5e7eb; /* much softer, subtle gray (Tailwind zinc-100) */
+  --bg-dark: #181c24;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body, html, #root {
+  background: var(--bg, #f4f7fa);
+  transition: background 0.3s;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Remove background override so global.css can control it */
+}
+
+body.dark {
+  /* Remove background override so global.css can control it */
+  color: #e0e7ef;
+  --modal-bg: #232946;
+  --bg: var(--bg-dark, #181c24);
+}
+
+body.dark .navbar {
+  background: #232946;
+  color: #e0e7ef;
+  box-shadow: 0 4px 24px rgba(99,102,241,0.18), 0 2px 8px rgba(0,0,0,0.20);
+}
+body.dark .navbar a {
+  color: #a5b4fc;
+}
+body.dark .navbar a:hover {
+  color: #fff;
+  background: linear-gradient(90deg,#6366f1,#60a5fa);
+}
+body.dark .dashboard-container,
+body.dark .app-container {
+  background: #232946;
+  color: #e0e7ef;
+  box-shadow: 0 4px 32px rgba(99,102,241,0.18);
+}
+body.dark .card {
+  background: #232946;
+  color: #e0e7ef;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+}
+body.dark .dashboard-summary-card {
+  background: linear-gradient(120deg,#3730a3 60%,#6366f1 100%);
+  color: #e0e7ef;
+}
+body.dark .gradient-primary {
+  background: linear-gradient(90deg,#3730a3,#6366f1);
+}
+body.dark .gradient-success {
+  background: linear-gradient(90deg,#059669,#10b981);
+}
+body.dark .gradient-warning {
+  background: linear-gradient(90deg,#f59e42,#fbbf24);
+}
+body.dark .gradient-info {
+  background: linear-gradient(90deg,#232946,#6366f1);
+}
+body.dark .copy-btn {
+  background: #3730a3;
+  color: #e0e7ef;
+}
+body.dark .copy-btn:hover {
+  background: #6366f1;
+}
+body.dark .security-tips {
+  background: linear-gradient(90deg,#232946,#3730a3);
+  color: #a5b4fc;
+}
+body.dark .dashboard-disclaimer {
+  background: #232946;
+  color: #fbbf24;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
