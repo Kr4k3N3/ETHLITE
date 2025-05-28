@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@types/react-router-dom": "^5.3.3",
-    "eth-wallet-lite": "file:..",
-    "react-router-dom": "^7.6.1"
-  }
-}
