@@ -4,7 +4,7 @@ import './App.css'
 import { QRCodeSVG } from 'qrcode.react'
 import { FaWallet, FaExchangeAlt, FaHistory, FaCoins, FaNetworkWired, FaPaperPlane, FaArrowDown } from 'react-icons/fa'
 import toastImport, { Toaster } from 'react-hot-toast'
-import SendEthForm from './SendEthForm' // Import the new SendEthForm component
+import SendEthForm from './SendEthForm.js' // Import the new SendEthForm component with .js extension
 
 const toast = toastImport as any;
 
