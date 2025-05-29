@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'deepseek-chat',
         messages: [
-          { role: 'system', content: 'You are an expert Ethereum market analyst.' },
+          { role: 'system', content: `You are an expert Ethereum market analyst. Always use up-to-date information. If the user asks about current events, use your best knowledge and cite your sources if possible.\n\nAt the end of every answer, you MUST include a summary block in this exact format (with numbers, not placeholders):\n\n24h Prediction: $[number]\n7d Prediction: $[number]\nConfidence: [number]%\nMethod: DeepSeek AI\n\nIf you cannot provide a prediction, you must still output the summary block with your best estimate. Do not skip the summary block under any circumstances.` },
           { role: 'user', content: userPrompt }
         ]
       })
