@@ -1,4 +1,18 @@
 // Vercel API route: /api/market/ai-chat
+// Helper to add timeout to fetch
+async function fetchWithTimeout(resource, options = {}, timeout = 7000) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  try {
+    const response = await fetch(resource, { ...options, signal: controller.signal });
+    clearTimeout(id);
+    return response;
+  } catch (err) {
+    clearTimeout(id);
+    throw err;
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -31,7 +45,7 @@ export default async function handler(req, res) {
   // Fetch ETH price, 24h change, and market cap from CoinGecko
   let ethPriceInfo = '';
   try {
-    const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/ethereum?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false');
+    const cgRes = await fetchWithTimeout('https://api.coingecko.com/api/v3/coins/ethereum?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false', {}, 5000);
     if (cgRes.ok) {
       const cgData = await cgRes.json();
       const price = cgData.market_data.current_price.usd;
@@ -44,7 +58,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const deepseekRes = await fetch(DEEPSEEK_API_URL, {
+    const deepseekRes = await fetchWithTimeout(DEEPSEEK_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +72,7 @@ export default async function handler(req, res) {
           { role: 'user', content: userPrompt }
         ].filter(Boolean)
       })
-    });
+    }, 7000);
     if (!deepseekRes.ok) {
       const text = await deepseekRes.text();
       res.status(200).json({ answer: `DeepSeek API error: ${deepseekRes.status} ${text}` });
@@ -68,6 +82,10 @@ export default async function handler(req, res) {
     const answer = deepseekData.choices?.[0]?.message?.content || 'No answer received from DeepSeek.';
     res.status(200).json({ answer });
   } catch (err) {
-    res.status(200).json({ answer: 'Failed to get AI answer from DeepSeek.' });
+    if (err.name === 'AbortError') {
+      res.status(200).json({ answer: 'AI service timed out. Please try again later.' });
+    } else {
+      res.status(200).json({ answer: 'Failed to get AI answer from DeepSeek.' });
+    }
   }
 }
