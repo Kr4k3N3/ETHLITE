@@ -257,6 +257,14 @@ const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
 
   if (loading) return <div style={{ textAlign: 'center', marginTop: 40 }}>{debugBlock}Loading dashboard...</div>;
 
+  if (!address || !provider) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: 60, color: '#b91c1c', fontSize: 18, fontWeight: 600 }}>
+        Please connect or import a wallet to view your dashboard.
+      </div>
+    );
+  }
+
   // Network options
   const networks = [
     { name: 'mainnet', label: 'Ethereum Mainnet' },
