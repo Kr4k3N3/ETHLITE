@@ -4,7 +4,19 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
-  const { prompt } = req.body || {};
+
+  let body = req.body;
+  // If body is a string, parse it as JSON
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch {
+      res.status(400).json({ error: 'Invalid JSON' });
+      return;
+    }
+  }
+
+  const { prompt } = body || {};
   if (!prompt) {
     res.status(400).json({ error: 'Missing prompt' });
     return;
