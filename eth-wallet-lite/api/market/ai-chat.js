@@ -16,10 +16,11 @@ export default async function handler(req, res) {
     }
   }
 
-  const { prompt } = body || {};
-  if (!prompt) {
+  const { prompt, question } = body || {};
+  const userPrompt = prompt || question;
+  if (!userPrompt) {
     res.status(400).json({ error: 'Missing prompt' });
     return;
   }
-  res.status(200).json({ answer: `AI response to: ${prompt}` });
+  res.status(200).json({ answer: `AI response to: ${userPrompt}` });
 }
