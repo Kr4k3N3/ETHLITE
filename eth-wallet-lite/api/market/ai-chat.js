@@ -22,5 +22,9 @@ export default async function handler(req, res) {
     res.status(400).json({ error: 'Missing prompt' });
     return;
   }
-  res.status(200).json({ answer: `AI response to: ${userPrompt}` });
+
+  // Example mock answer with predictions, risks, and opportunities
+  res.status(200).json({
+    answer: `**Prediction:**\n24h Prediction: $3,200\n7d Prediction: $3,350\nConfidence: 78%\nMethod: Mock AI Model v1.0\n\n**Risks:**\n- Market volatility due to macroeconomic news\n- Potential regulatory announcements\n\n**Opportunities:**\n- Layer 2 adoption growth\n- Upcoming Ethereum upgrades`
+  });
 }
