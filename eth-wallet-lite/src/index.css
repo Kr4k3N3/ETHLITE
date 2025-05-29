@@ -1,5 +1,8 @@
 @import './global.css';
 
+/* Add viewport for mobile scaling (to be injected in index.html, but reminder here) */
+/* <meta name="viewport" content="width=device-width, initial-scale=1"> */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -116,5 +119,21 @@ body.dark .dashboard-disclaimer {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+:root {
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  :root {
+    font-size: 15px;
+  }
+  html, body, #root {
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
