@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "eth-wallet-lite": "file:../.."
-  }
-}
