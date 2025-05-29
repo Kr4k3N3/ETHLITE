@@ -471,4 +471,13 @@ body.dark .landing-container .security-tips, body.dark .card.container .security
     padding: 1rem 0.2rem !important;
     border-radius: 0.7rem !important;
   }
+  .network-modal {
+    width: 95vw !important;
+    min-width: 0 !important;
+    max-width: 99vw !important;
+    padding: 1rem 0.5rem 1.2rem 0.5rem !important;
+    border-radius: 0.7rem !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
 }

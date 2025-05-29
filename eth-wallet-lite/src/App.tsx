@@ -531,8 +531,22 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
       </div>
       {/* Network Change Modal (remains outside main card for overlay) */}
       {showNetworkModal && (
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#0008', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ background: '#fff', borderRadius: 16, padding: 32, minWidth: 320, maxWidth: 400, boxShadow: '0 4px 24px #0002', position: 'relative', color: '#222' }}>
+        <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: '#000a', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div
+            className="card network-modal"
+            style={{
+              background: 'linear-gradient(120deg,#6366f1 0%,#60a5fa 60%,#10b981 100%)',
+              borderRadius: 20,
+              padding: '1.2rem 1.2rem 1.5rem 1.2rem',
+              minWidth: 0,
+              width: '95vw',
+              maxWidth: 400,
+              boxSizing: 'border-box',
+              position: 'relative',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+            }}
+          >
             <button onClick={() => setShowNetworkModal(false)} style={{ position: 'absolute', top: 12, right: 16, background: 'none', border: 'none', fontSize: 22, color: '#888', cursor: 'pointer' }}>&times;</button>
             <h3 style={{ marginBottom: 18, textAlign: 'center', color: '#3730a3', fontWeight: 700, fontSize: 20 }}>Change Network</h3>
             <div style={{ marginBottom: 18 }}>
