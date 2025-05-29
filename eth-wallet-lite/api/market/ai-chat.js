@@ -1,5 +1,9 @@
 // Vercel API route: /api/market/ai-chat
 export default async function handler(req, res) {
+  // TEMP: Fast static response for debugging Vercel timeouts
+  res.status(200).json({ answer: 'This is a fast static response from Vercel.' });
+  return;
+  /*
   console.log('AI-CHAT: Incoming request', { method: req.method, body: req.body });
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -82,4 +86,5 @@ export default async function handler(req, res) {
     console.error('AI-CHAT: DeepSeek fetch error', err);
     res.status(200).json({ answer: 'Failed to get AI answer from DeepSeek.' });
   }
+  */
 }
