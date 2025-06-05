@@ -1,3 +1,9 @@
+/*
+  global.css - This file sets up global styles for the app.
+  It resets margins and paddings, sets up box-sizing, and ensures the app fills the screen.
+  Each section is commented to help students understand what it does.
+*/
+
 /* global.css - restored for Vite + React app global styles */
 html, body {
   margin: 0;

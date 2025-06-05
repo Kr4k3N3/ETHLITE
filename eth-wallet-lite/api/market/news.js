@@ -1,4 +1,4 @@
-// Vercel API route: /api/market/news
+// This API endpoint returns example Ethereum news headlines for the app.
 export default function handler(req, res) {
   res.status(200).json({
     news: [

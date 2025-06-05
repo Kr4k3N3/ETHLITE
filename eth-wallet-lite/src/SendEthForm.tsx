@@ -1,26 +1,32 @@
-// SendEthForm.tsx
+// This file lets users send ETH from their wallet to another address.
+// It shows a form where you enter the recipient and amount, and handles sending the transaction.
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 
 interface Props {
+  // The Ethereum provider and wallet to use for sending
   provider: ethers.JsonRpcProvider | null;
   wallet: ethers.Wallet | ethers.HDNodeWallet | null;
   onClose?: () => void;
 }
 
 const SendEthForm: React.FC<Props> = ({ provider, wallet, onClose }) => {
-  const [to, setTo] = useState('');
-  const [amount, setAmount] = useState('');
-  const [status, setStatus] = useState<string | null>(null);
-  const [sending, setSending] = useState(false);
+  // These keep track of the form fields and status
+  const [to, setTo] = useState(''); // Recipient address
+  const [amount, setAmount] = useState(''); // Amount of ETH to send
+  const [status, setStatus] = useState<string | null>(null); // Status message
+  const [sending, setSending] = useState(false); // Sending state
 
+  // This function runs when the user submits the form to send ETH
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus(null);
     setSending(true);
     try {
       if (!provider || !wallet) throw new Error('No wallet loaded');
+      // Connect the wallet to the provider so it can send transactions
       const signer = wallet.connect(provider);
+      // Send the transaction
       const tx = await signer.sendTransaction({ to, value: ethers.parseEther(amount) });
       setStatus('Transaction sent: ' + tx.hash);
       setTo('');

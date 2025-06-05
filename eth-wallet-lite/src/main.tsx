@@ -8,12 +8,14 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-ro
 import { ethers } from 'ethers'
 import { FaMoon, FaSun } from 'react-icons/fa';
 
+// This is the main entry point for the app. It sets up the theme, wallet, and navigation.
 const Root = () => {
-  // Start with dark mode enabled
+  // Start with dark mode enabled by default
   const [darkMode, setDarkMode] = useState(true);
+  // This keeps track of the user's wallet (if imported)
   const [wallet, setWallet] = useState<any>(null);
 
-  // Ensure dark mode is applied on initial render
+  // When the app loads or darkMode changes, update the page background
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add('dark');
@@ -22,7 +24,7 @@ const Root = () => {
     }
   }, [darkMode]);
 
-  // Toggle dark mode by adding/removing 'dark' class on body
+  // This function switches between dark and light mode
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       const next = !prev;
@@ -35,7 +37,7 @@ const Root = () => {
     });
   };
 
-  // Add a floating toggle in the top-left corner
+  // This is the button in the top-left corner to switch dark/light mode
   const DarkModeSwitch = (
     <button
       onClick={toggleDarkMode}
@@ -77,7 +79,7 @@ const Root = () => {
     </button>
   );
 
-  // Only show navbar and routes if wallet is imported
+  // Only show the navigation bar and routes if a wallet is loaded
   const isWalletLoaded = wallet && ((wallet.wallet && wallet.network) || wallet.address)
   const Navbar = isWalletLoaded ? (
     <nav

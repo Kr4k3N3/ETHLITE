@@ -1,11 +1,13 @@
-// Vercel API route: /api/market/ai-chat
+// This API endpoint lets the app ask an AI for Ethereum market predictions and answers.
+// It uses DeepSeek AI and CoinGecko to get up-to-date ETH price info and generate a response.
 export default async function handler(req, res) {
-  // TEST: Only call DeepSeek (no CoinGecko)
+  // Get the DeepSeek API key from environment variables
   const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || '';
   if (!DEEPSEEK_API_KEY) {
     res.status(500).json({ error: 'Server misconfiguration: missing DEEPSEEK_API_KEY' });
     return;
   }
+  // Parse the request body (handle both string and object)
   let body = req.body;
   if (typeof body === 'string') {
     try {
@@ -15,13 +17,14 @@ export default async function handler(req, res) {
       return;
     }
   }
+  // Get the user's question or prompt
   const { prompt, question } = body || {};
   const userPrompt = prompt || question;
   if (!userPrompt) {
     res.status(400).json({ error: 'Missing prompt' });
     return;
   }
-  // Fetch ETH price, 24h change, and market cap from CoinGecko
+  // Try to fetch the latest ETH price info from CoinGecko
   let ethPriceInfo = '';
   try {
     const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/ethereum?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false');
@@ -33,10 +36,11 @@ export default async function handler(req, res) {
       ethPriceInfo = `Current Ethereum (ETH) price: $${price} (24h change: ${change > 0 ? '+' : ''}${change.toFixed(2)}%, Market Cap: $${marketCap.toLocaleString()}) [CoinGecko, ${new Date().toLocaleDateString()}].`;
     }
   } catch (cgErr) {
-    // Ignore CoinGecko error, fallback to no price info
+    // If CoinGecko fails, just skip price info
   }
 
   try {
+    // Ask DeepSeek AI for an answer, including the latest ETH price info
     const deepseekRes = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {

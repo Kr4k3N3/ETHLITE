@@ -1,6 +1,5 @@
-// Vercel API route: /api/market/price-data
+// This API endpoint returns example ETH price data for the app.
 export default function handler(req, res) {
-  // Example: Return static price data. Replace with real data as needed.
   res.status(200).json({
     prices: [
       [Date.now() - 6*24*60*60*1000, 3800],

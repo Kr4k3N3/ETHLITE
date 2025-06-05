@@ -1,12 +1,14 @@
-// MarketInsightsChat.tsx
+// This file lets users ask questions to an AI about the ETH market.
+// It shows a chat box where you can type a question and get an answer, including price predictions.
 import React, { useState } from 'react';
 
 const MarketInsightsChat: React.FC<{ onPredictionUpdate?: (pred: any) => void }> = ({ onPredictionUpdate }) => {
+  // These keep track of the user's question, the AI's answer, and loading state
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Helper: Try to extract predictions from AI answer
+  // This tries to pull out price predictions from the AI's answer
   function extractPredictions(answer: string) {
     // Even more robust: match both markdown, colons, and allow for whitespace/newlines
     const pred24h = /24h Prediction[\s:]*\**:?\**\s*\$?([\d,.]+)/i.exec(answer)?.[1];
@@ -24,6 +26,7 @@ const MarketInsightsChat: React.FC<{ onPredictionUpdate?: (pred: any) => void }>
     return null;
   }
 
+  // This function runs when the user submits a question to the AI
   const handleAsk = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);

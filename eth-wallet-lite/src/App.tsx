@@ -1,15 +1,19 @@
+// App.tsx - Main React component for the Ethereum Wallet Lite app
+// This file is the heart of the app. It manages your wallet, lets you send/receive ETH, and shows your dashboard.
+
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import './App.css'
 import { QRCodeSVG } from 'qrcode.react'
 import { FaWallet, FaExchangeAlt, FaHistory, FaCoins, FaNetworkWired, FaPaperPlane, FaArrowDown } from 'react-icons/fa'
 import toastImport, { Toaster } from 'react-hot-toast'
-import SendEthForm from './SendEthForm.js' // Import the new SendEthForm component with .js extension
+import SendEthForm from './SendEthForm.js' // This is the form for sending ETH
 
 const toast = toastImport as any;
 
+// These are the URLs and keys for talking to the Ethereum network and Etherscan
 const SEPOLIA_RPC = 'https://sepolia.infura.io/v3/45aaa878365644ca80666e00ac968f62';
-const ETHERSCAN_API_KEY = 'AGVYCISVRPPSEJDKS59VVV6AW191RKAFNS'; // Updated API key
+const ETHERSCAN_API_KEY = 'AGVYCISVRPPSEJDKS59VVV6AW191RKAFNS';
 const ETHERSCAN_URLS = {
   mainnet: 'https://api.etherscan.io/api',
   sepolia: 'https://api-sepolia.etherscan.io/api',
@@ -19,7 +23,10 @@ const NETWORKS = [
   { name: 'Sepolia Testnet', id: 'sepolia', rpc: SEPOLIA_RPC },
 ]
 
+// This is the main App component. It holds all the state and logic for your wallet.
 function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.HDNodeWallet, network: string } | null, setWallet: (w: { wallet: ethers.Wallet | ethers.HDNodeWallet, network: string } | null) => void }) {
+  // These are all the pieces of data (state) we keep track of in the app
+  // For example: your balance, if you're sending ETH, which network you're on, etc.
   const [balance, setBalance] = useState<string | null>(null)
   const [rawBalance, setRawBalance] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -48,7 +55,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
   const [mnemonic, setMnemonic] = useState('')
   const [privateKey, setPrivateKey] = useState('')
 
-  // Helper to get ethers provider for selected network
+  // This function gives us the right Ethereum provider (connection) for the selected network
+  // It switches between Sepolia and Mainnet based on the user's choice
   const getProvider = () => {
     switch (network) {
       case 'sepolia':
@@ -59,7 +67,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     }
   }
 
-  // Fetch ETH tx history from Etherscan
+  // This function gets your transaction history from Etherscan
+  // It fetches the last 10 transactions for your wallet address
   const fetchTxHistory = async (address: string) => {
     setLoadingTx(true)
     try {
@@ -84,7 +93,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     setLoadingTx(false)
   }
 
-  // Fetch ERC-20 token balances from Etherscan
+  // This function gets your token balances from Etherscan
+  // It shows the tokens you hold in your wallet, like USDT, DAI, etc.
   const fetchTokenBalances = async (address: string) => {
     setLoadingTokens(true)
     try {
@@ -112,6 +122,7 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     setLoadingTokens(false)
   }
 
+  // This useEffect runs when your wallet or network changes, and updates your balances and history
   useEffect(() => {
     if (wallet) {
       fetchBalance(wallet.wallet)
@@ -123,6 +134,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     // eslint-disable-next-line
   }, [wallet, network])
 
+  // This function gets your ETH balance using ethers.js
+  // It connects to the Ethereum network and fetches the balance for your wallet address
   const fetchBalance = async (w: ethers.Wallet | ethers.HDNodeWallet) => {
     try {
       const provider = getProvider()
@@ -137,6 +150,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     }
   }
 
+  // This function sends ETH to another address
+  // It creates and sends a transaction from your wallet to the recipient's address
   const sendEth = async (e: React.FormEvent) => {
     e.preventDefault()
     setSending(true)
@@ -156,6 +171,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     setSending(false)
   }
 
+  // This function copies your wallet address to the clipboard
+  // It uses the browser's clipboard API to copy the address, and shows a success message
   const copyToClipboard = () => {
     if (!wallet?.wallet?.address) return
     navigator.clipboard.writeText(wallet.wallet.address)
@@ -170,6 +187,8 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     setTimeout(() => setCopied(false), 1200)
   }
 
+  // This function lets you import a wallet using a mnemonic or private key
+  // It updates the wallet state and switches the network if needed
   const handleImport = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -392,6 +411,7 @@ function App({ wallet, setWallet }: { wallet: { wallet: ethers.Wallet | ethers.H
     setWallet({ wallet: wallet.wallet, network: e.target.value })
   }
 
+  // The return below is the main UI for the app. It shows your dashboard, modals, and all the buttons.
   return (
     <div className="main-app-container">
       {/* Header */}

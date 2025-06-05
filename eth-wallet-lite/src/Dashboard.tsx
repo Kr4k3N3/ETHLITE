@@ -1,5 +1,6 @@
-// --- Modernized Dashboard UI to match Market Insights ---
-// --- Unified card/container styles, improved layout, live ETH data, and news ---
+// This file creates the main dashboard page for the wallet app.
+// It shows your wallet balance, recent transactions, ETH price chart, and news.
+// The design uses cards and icons to make things easy to see and understand.
 
 import React, { useEffect, useState } from 'react';
 import { FaWallet, FaExchangeAlt, FaChartLine, FaInfoCircle, FaNewspaper } from 'react-icons/fa';
@@ -9,6 +10,7 @@ import { ethers } from 'ethers';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
+// This is a small card that shows a summary (like balance or activity)
 const SummaryCard = ({ icon: Icon, title, value, style }: { icon: any, title: string, value: string | number, style?: React.CSSProperties }) => (
   <div className="card dashboard-summary-card" style={style}>
     <Icon className="dashboard-icon" />
@@ -25,22 +27,23 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
-  const [balance, setBalance] = useState('0');
-  const [marketData, setMarketData] = useState<any>(null);
-  const [news, setNews] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [recentTx, setRecentTx] = useState<any[]>([]);
-  const [network, setNetwork] = useState<string>('mainnet');
-  const [recentActivityCount, setRecentActivityCount] = useState(0);
-  const [etherscanDebug, setEtherscanDebug] = useState<any>(null);
-  const [notFound, setNotFound] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // These are pieces of information we want to keep track of on the dashboard
+  const [balance, setBalance] = useState('0'); // ETH balance
+  const [marketData, setMarketData] = useState<any>(null); // ETH price and chart
+  const [news, setNews] = useState<string[]>([]); // Crypto news
+  const [loading, setLoading] = useState(true); // Loading state
+  const [recentTx, setRecentTx] = useState<any[]>([]); // Recent transactions
+  const [network, setNetwork] = useState<string>('mainnet'); // Which network we're on
+  const [recentActivityCount, setRecentActivityCount] = useState(0); // Number of recent activities
+  const [etherscanDebug, setEtherscanDebug] = useState<any>(null); // For debugging API calls
+  const [notFound, setNotFound] = useState(false); // If address not found
+  const [error, setError] = useState<string | null>(null); // Error messages
 
-  // Store both mainnet and sepolia responses for debug
+  // These store extra debug info for mainnet and sepolia networks
   const [mainnetDebug, setMainnetDebug] = useState<any>(null);
   const [sepoliaDebug, setSepoliaDebug] = useState<any>(null);
 
-  // --- Retry helper for fetch with exponential backoff ---
+  // This function tries to fetch data from the internet, and if it fails, it tries again a few times
   async function fetchWithRetry(url: string, opts: any = {}, maxRetries = 3, baseDelay = 1000) {
     let attempt = 0;
     let lastErr: any = null;
@@ -51,14 +54,14 @@ const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
         const res = await fetch(url, { ...opts, signal: controller.signal });
         clearTimeout(timeoutId);
         const data = await res.json();
-        // Etherscan rate limit or error detection
+        // If we hit a rate limit, try again
         if (data && data.message && typeof data.message === 'string' && data.message.toLowerCase().includes('rate limit')) {
           throw new Error('rate limit');
         }
         return data;
       } catch (err: any) {
         lastErr = err;
-        // Only retry on network error, timeout, or rate limit
+        // Only try again if it's a network error, timeout, or rate limit
         if (err.name === 'AbortError' || (err.message && err.message.toLowerCase().includes('rate limit')) || err.message === 'timeout') {
           await new Promise(res => setTimeout(res, baseDelay * Math.pow(2, attempt)));
           attempt++;
@@ -70,7 +73,7 @@ const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
     throw lastErr || new Error('fetchWithRetry failed');
   }
 
-  // Helper to fetch txs and balance for a given network
+  // This function gets transactions and balance for a specific network (mainnet or sepolia)
   const fetchNetworkData = async (net: string) => {
     const txUrl = `/api/proxy/etherscan?network=${net}&module=account&action=txlist&address=${address}&sort=desc`;
     let txData;
@@ -79,7 +82,7 @@ const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
     } catch (err) {
       return { txData: { status: '0', message: 'Fetch error', result: [] }, bal: '0' };
     }
-    // Fetch balance (try provider, fallback to etherscan)
+    // Try to get the balance using the provider, if not, use etherscan
     let bal = '0';
     if (provider && address) {
       try {
@@ -90,7 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ provider, address }) => {
           throw new Error('Provider network mismatch');
         }
       } catch {
-        // fallback: fetch via etherscan proxy
+        // If provider fails, try etherscan
         try {
           const balUrl = `/api/proxy/etherscan?network=${net}&module=account&action=balance&address=${address}`;
           const balRes = await fetchWithRetry(balUrl, { timeout: 4000 });

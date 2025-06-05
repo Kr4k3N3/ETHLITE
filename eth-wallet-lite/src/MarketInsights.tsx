@@ -1,3 +1,4 @@
+// It fetches real ETH price data and lets users see AI-predicted prices for the next days.
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
@@ -7,6 +8,7 @@ import MarketInsightsChat from './MarketInsightsChat.js';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const MarketInsights = () => {
+  // These keep track of price data, predictions, and loading/error states
   const [priceData, setPriceData] = useState<any>(null);
   const [predictions, setPredictions] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -15,8 +17,8 @@ const MarketInsights = () => {
   const [priceChange, setPriceChange] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<'up' | 'down' | null>(null);
 
+  // When the component loads, fetch ETH price data from CoinGecko
   useEffect(() => {
-    // Always fetch real-time price data from CoinGecko
     const fetchData = async () => {
       setLoading(true);
       setError(null);
@@ -36,12 +38,12 @@ const MarketInsights = () => {
     fetchData();
   }, []);
 
-  // Add: update predictions from chat
+  // This updates the predictions when the AI chat gives new ones
   function handlePredictionUpdate(newPredictions: any) {
     setPredictions(newPredictions);
   }
 
-  // --- Chart Data Construction ---
+  // This builds the chart data for the price and predictions
   const chartData = priceData && priceData.prices ? (() => {
     const realLabels = priceData.prices.map((p: any) => new Date(p[0]).toLocaleDateString());
     const realData = priceData.prices.map((p: any) => p[1]);

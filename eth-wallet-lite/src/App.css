@@ -1,4 +1,12 @@
+/*
+  App.css - Main styles for the Ethereum Wallet Lite app
+  -----------------------------------------------------
+  This file controls how everything looks in the app: layout, colors, cards, buttons, and how things change on different screen sizes.
+  Comments are written for students to help you learn what each part does!
+*/
+
 body {
+  /* This sets up the main page to use the whole screen and center everything vertically */
   min-height: 100vh;
   margin: 0;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -10,6 +18,7 @@ body {
 }
 
 #root {
+  /* The React app is mounted here. We want it to fill the screen and center content. */
   min-height: 100vh;
   width: 100vw;
   display: flex;
@@ -19,12 +28,14 @@ body {
 }
 
 .logo {
+  /* The logo image at the top. We add a little animation and padding. */
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
+  /* When you hover the logo, it glows! */
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
@@ -32,21 +43,20 @@ body {
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  /* This makes the logo spin forever if you want to use it. */
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Only spin the logo if the user allows animations. */
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
 .navbar {
+  /* The top navigation bar. It uses flexbox to space out links and buttons. */
   margin-top: 2.5rem;
   min-height: 3.5rem;
   display: flex;
@@ -66,6 +76,7 @@ body {
   white-space: normal;
 }
 .navbar a {
+  /* Style for links in the navbar */
   color: #3b82f6;
   text-decoration: none;
   font-weight: 600;
@@ -75,10 +86,12 @@ body {
   border-radius: 0.4rem;
 }
 .navbar a:hover {
+  /* When you hover a link, it gets a gradient background */
   color: #fff;
   background: linear-gradient(90deg,#6366f1,#60a5fa);
 }
 .logout-btn {
+  /* The logout button uses a bright gradient and stands out */
   background: linear-gradient(90deg,#f43f5e,#f59e42);
   color: #fff;
   border: none;
@@ -97,6 +110,7 @@ body {
 
 /* --- Card and container unification --- */
 .card, .dashboard-summary-card, .market-insights-card, .security-tips, .market-insights-predictions .prediction-card {
+  /* These are the main boxes used everywhere. They all look similar for a clean UI. */
   background: var(--card-bg, #f8fafc);
   border-radius: 1rem;
   box-shadow: 0 2px 12px rgba(99,102,241,0.07);
@@ -105,12 +119,14 @@ body {
   margin-bottom: 2rem;
 }
 body.dark .card, body.dark .dashboard-summary-card, body.dark .market-insights-card, body.dark .security-tips, body.dark .market-insights-predictions .prediction-card {
+  /* Dark mode for all cards */
   background: var(--card-bg-dark, #232946);
   color: var(--card-text-dark, #e0e7ef);
   box-shadow: 0 2px 8px rgba(99,102,241,0.10);
 }
 
 .main-app-container {
+  /* The main wrapper for the app content. Controls width, background, and spacing. */
   max-width: 900px;
   width: 100%;
   margin: 2.5rem auto 0 auto;
@@ -127,6 +143,7 @@ body.dark .card, body.dark .dashboard-summary-card, body.dark .market-insights-c
   gap: 2rem;
 }
 body.dark .main-app-container {
+  /* Dark mode for the main app container */
   background: linear-gradient(120deg, #181c24 0%, #232946 100%) !important;
   color: #e0e7ef;
   box-shadow: 0 4px 32px rgba(99,102,241,0.18);
@@ -134,6 +151,7 @@ body.dark .main-app-container {
 
 /* Remove max-width and margin from .security-tips for consistency */
 .security-tips {
+  /* Security tips card - always full width of its container */
   max-width: unset;
   margin-left: 0;
   margin-right: 0;
@@ -147,6 +165,7 @@ body.dark .security-tips {
 
 /* Market Insights prediction cards unified */
 .market-insights-predictions .prediction-card {
+  /* Cards for AI predictions - smaller min width for mobile */
   min-width: 140px;
   text-align: center;
   margin-bottom: 0;
@@ -171,6 +190,7 @@ body {
 }
 
 .dashboard-header {
+  /* The big header at the top of the dashboard */
   background: linear-gradient(90deg,#6366f1,#60a5fa);
   color: #fff;
   border-radius: 16px;
@@ -186,6 +206,7 @@ body {
 }
 
 .dashboard-summary {
+  /* The row of summary cards (balance, portfolio, etc) */
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
@@ -193,6 +214,7 @@ body {
   width: 100%;
 }
 .dashboard-summary-card {
+  /* Each summary card in the dashboard */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,6 +242,7 @@ body {
 }
 
 .dashboard-chart {
+  /* The chart area for ETH price trends */
   background: linear-gradient(90deg,#6366f1,#60a5fa);
   color: #fff;
   border-radius: 16px;
@@ -229,6 +252,7 @@ body {
 }
 
 .dashboard-disclaimer {
+  /* A small info box for warnings or tips */
   margin-top: 0.4rem;
   background: #f0f9ff;
   color: #0369a1;
@@ -246,6 +270,7 @@ body.dark .dashboard-disclaimer {
 
 /* --- Landing Page (Import/Create Wallet) --- */
 .landing-container, .card.container {
+  /* The main card for importing or creating a wallet */
   background: var(--card-bg, #f8fafc);
   border-radius: 1.2rem;
   box-shadow: 0 4px 32px rgba(99,102,241,0.08);
@@ -268,6 +293,7 @@ body.dark .landing-container, body.dark .card.container {
 }
 
 .landing-container h2, .card.container h2 {
+  /* Big title for the wallet import/create card */
   color: #3730a3;
   font-weight: 700;
   font-size: 24px;
@@ -279,6 +305,7 @@ body.dark .landing-container h2, body.dark .card.container h2 {
 }
 
 .import-toggle, .connect-btn {
+  /* Buttons for switching between mnemonic/private key */
   font-weight: 600;
   font-size: 16px;
   border-radius: 8px;
@@ -303,6 +330,7 @@ body.dark .landing-container h2, body.dark .card.container h2 {
 
 .landing-container textarea, .landing-container input,
 .card.container textarea, .card.container input {
+  /* Inputs for mnemonic/private key */
   width: 100%;
   margin-bottom: 12px;
   border-radius: 8px;
@@ -321,6 +349,7 @@ body.dark .card.container textarea, body.dark .card.container input {
 }
 
 .landing-container button, .card.container button {
+  /* Main action buttons for wallet import/create */
   width: 100%;
   background: linear-gradient(90deg,#6366f1,#60a5fa);
   color: #fff;
@@ -347,6 +376,7 @@ body.dark .card.container textarea, body.dark .card.container input {
 }
 
 .landing-container .error, .card.container .error {
+  /* Error messages for invalid input */
   color: #e11d48;
   margin-top: 10px;
   background: #fee2e2;
@@ -357,6 +387,7 @@ body.dark .card.container textarea, body.dark .card.container input {
 }
 
 .landing-container .security-tips, .card.container .security-tips {
+  /* Security tips card on the wallet page */
   background: #f8fafc;
   color: #232946;
   border-radius: 1rem;
@@ -371,10 +402,12 @@ body.dark .landing-container .security-tips, body.dark .card.container .security
 }
 
 @keyframes modalFadeIn {
+  /* Animation for modals appearing */
   from { opacity: 0; transform: scale(0.97); }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes modalGradientMove {
+  /* Animation for moving gradient backgrounds */
   from { background-position: 80% 90%; }
   to { background-position: 60% 80%; }
 }

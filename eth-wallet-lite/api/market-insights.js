@@ -1,6 +1,5 @@
-// Vercel API route: /api/market-insights
+// This API endpoint returns example Ethereum market insights for the app.
 export default function handler(req, res) {
-  // Example: Return static insights. Replace with real data as needed.
   res.status(200).json({
     insights: [
       'ETH is showing strong support at $3,000.',

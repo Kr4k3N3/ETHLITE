@@ -1,21 +1,22 @@
-// Simple Express API mock for /api/market/ai-chat and /api/market/price-data
+// This file sets up example API endpoints for the app using Express (CommonJS version).
+// It mocks AI chat, price data, prediction, and Etherscan proxy endpoints for testing.
 const express = require('express');
 const router = express.Router();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-// DeepSeek API integration
+// DeepSeek API integration settings
 const DEEPSEEK_API_KEY = 'sk-968f38acfb964e5da414991c39661572';
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-const DEEPSEEK_MODEL = 'deepseek-chat'; // Use the most capable available DeepSeek model
+const DEEPSEEK_MODEL = 'deepseek-chat';
 
-// Mock AI chat endpoint (now using DeepSeek)
+// This endpoint lets the app ask DeepSeek AI for ETH market answers
 router.post('/ai-chat', express.json(), async (req, res) => {
   const { question } = req.body;
   if (!question || typeof question !== 'string') {
     return res.json({ answer: 'Please ask a valid question about the ETH market.' });
   }
   try {
-    // Fetch ETH price, 24h change, and market cap from CoinGecko
+    // Try to fetch ETH price info from CoinGecko
     let ethPriceInfo = '';
     try {
       const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/ethereum?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false');
@@ -29,6 +30,7 @@ router.post('/ai-chat', express.json(), async (req, res) => {
     } catch (cgErr) {
       console.error('CoinGecko fetch error:', cgErr);
     }
+    // Ask DeepSeek AI for an answer
     const deepseekRes = await fetch(DEEPSEEK_API_URL, {
       method: 'POST',
       headers: {
@@ -46,19 +48,19 @@ router.post('/ai-chat', express.json(), async (req, res) => {
     });
     if (!deepseekRes.ok) {
       const text = await deepseekRes.text();
-      console.error('DeepSeek API error:', deepseekRes.status, text); // Log DeepSeek API error
+      console.error('DeepSeek API error:', deepseekRes.status, text);
       return res.json({ answer: `DeepSeek API error: ${deepseekRes.status} ${text}` });
     }
     const deepseekData = await deepseekRes.json();
     const answer = deepseekData.choices?.[0]?.message?.content || 'No answer received from DeepSeek.';
     res.json({ answer });
   } catch (err) {
-    console.error('DeepSeek fetch error:', err); // Log fetch error
+    console.error('DeepSeek fetch error:', err);
     res.json({ answer: 'Failed to get AI answer from DeepSeek.' });
   }
 });
 
-// Real price data endpoint
+// This endpoint returns real or mock ETH price data
 router.get('/price-data', async (req, res) => {
   try {
     const cgRes = await fetch('https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=7');
