@@ -1,6 +1,6 @@
 // App.tsx - Main React component for the Ethereum Wallet Lite app
-// This file is the heart of the app. It manages your wallet, lets you send/receive ETH, and shows your dashboard.
-
+// This file is the heart of the app. It manages wallet, lets you send/receive ETH, and shows your dashboard.
+import { Analytics } from "@vercel/analytics/next"
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import './App.css'
